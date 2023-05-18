@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.gis.geoip2 import GeoIP2 #cette bibliothèque permet d'obtenir les coordonnées
 from django.core.serializers.json import DjangoJSONEncoder
 from datetime import datetime
+from django.contrib import messages
 
 import requests
 import json
@@ -26,8 +27,10 @@ def index(request):
     db = firestore.client()
 
     identifier = request.GET.get('recherche')
+    search_date = request.GET.get('date')
     referenced_user = ""
     positions = []
+    message = "Aucune information trouvée"
 
     if identifier:
         print(identifier)
@@ -36,8 +39,20 @@ def index(request):
         if doc_ref.get().exists:
 
             positions = doc_ref.get().to_dict()['position_ids']
+            #on convertit toutes les dates au format iso
             for item in positions:
                 item['timestamp'] = item['timestamp'].isoformat()
+
+            #on selectionne les positions qui correspondent à la date entrée.
+            if search_date:
+                filtered_positions = []
+                for item in positions:
+                    date_iso = datetime.fromisoformat(item['timestamp']) 
+                    if date_iso == search_date:
+                        filtered_positions.append(item)
+                
+
+            positions = filtered_positions
 
             positions = json.dumps(positions)
             print(positions)
@@ -61,11 +76,13 @@ def index(request):
 
     #users = [doc.to_dict() for doc in users_ref.stream()]
     #On envoie les données récuperées dans le context
+    messages.info(request, message)
     context = { 
         'data': location_data,
         'searched_user': referenced_user,
         'positions' : positions,
         'identifier': identifier,
+        'search_date': search_date,
         }
 
     return render(request, 'location/home.html', context) 

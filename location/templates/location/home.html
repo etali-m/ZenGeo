@@ -32,7 +32,7 @@
              <div class="row">
                 <form class="search_form d-flex" action="{% url 'home' %}" method="GET">
                     <input class="search-field" type="search" name="recherche" placeholder="Rechercher sur ZenGeo " value="{{ identifier }}">
-                    <input type="date" name="date" class="search-date">
+                    <input type="date" name="date" class="search-date" value="{{ search_date }}">
                     <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
                 </form> 
              </div>
@@ -54,6 +54,15 @@
         </div>
         <div id="map"></div>
     </div>  
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <div id="donnees" data-lat="{{ data.lat }}" data-lon="{{ data.lon }}"></div> 
     <div id="positions-data" data-positions={{positions}}></div>
  

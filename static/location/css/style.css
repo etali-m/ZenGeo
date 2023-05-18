@@ -89,7 +89,7 @@ button.search_btn{
     color:#333;
     padding:8px;
     border-left: 1px solid rgb(176, 176, 176);
-    font-weight: 500;
+    font-weight: 500; 
 }
 
 .user__info__block{
@@ -99,7 +99,7 @@ button.search_btn{
     margin-left: 5px;
     width: 100%;
     padding:5px;
-    box-shadow: 0px 0px 5px #ccc; 
+    box-shadow: 0px 0px 5px #ccc;  
 }
 
 .user__info{
@@ -120,6 +120,8 @@ button.search_btn{
     font-size:35px;
     color:orange;
 }
+
+
 
 b{
     color: black;
