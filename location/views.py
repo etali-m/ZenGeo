@@ -30,7 +30,6 @@ def index(request):
     search_date = request.GET.get('date')
     referenced_user = ""
     positions = []
-    message = "Aucune information trouvée"
 
     if identifier:
         print(identifier)
@@ -44,15 +43,23 @@ def index(request):
                 item['timestamp'] = item['timestamp'].isoformat()
 
             #on selectionne les positions qui correspondent à la date entrée.
+            
             if search_date:
                 filtered_positions = []
                 for item in positions:
                     date_iso = datetime.fromisoformat(item['timestamp']) 
-                    if date_iso == search_date:
-                        filtered_positions.append(item)
-                
+                    date_formatted_datetime = datetime.strptime(search_date, "%Y-%m-%d")  
+                    if date_iso.date() == date_formatted_datetime.date():
+                        filtered_positions.append(item) 
+                print(filtered_positions)
+                positions = filtered_positions
 
-            positions = filtered_positions
+            if positions != []:
+                message = str(len(positions)) + " lieu(x) trouvé !"
+                messages.success(request, message)
+            else:
+                message = "Aucun Lieu trouvée !"
+                messages.warning(request, message)
 
             positions = json.dumps(positions)
             print(positions)
@@ -76,7 +83,6 @@ def index(request):
 
     #users = [doc.to_dict() for doc in users_ref.stream()]
     #On envoie les données récuperées dans le context
-    messages.info(request, message)
     context = { 
         'data': location_data,
         'searched_user': referenced_user,

@@ -55,12 +55,12 @@
         <div id="map"></div>
     </div>  
 
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
+    {% if messages %} 
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}" role="alert" id="msg">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% endif %}
 
     <div id="donnees" data-lat="{{ data.lat }}" data-lon="{{ data.lon }}"></div> 
@@ -88,10 +88,14 @@
         if (searched_user === null || typeof searched_user === "undefined" || searched_user ===""){
             document.querySelector('.user__info__block').style.display = 'none';
         }
-        console.log(searched_user)
-    </script>
+        
+        msg = document.getElementById('msg');
+        setTimeout(function(){
+            msg.style.display = 'none';
+        }, 5000)
 
-    </script>
+         
+    </script> 
 
 
     <script src="{% static 'location/js/app.js' %}"></script>
