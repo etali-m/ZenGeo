@@ -31,18 +31,26 @@
         <div class="search-block">
              <div class="row">
                 <form class="search_form d-flex" action="{% url 'home' %}" method="GET">
-                    <input class="search-field" type="search" name="recherche" placeholder="Rechercher sur ZenGeo " >
-                    <div id="horloge">
-                        <select name="" id="horloge-list">
-                            <option selected>Période</option>
-                            <option value="3">Il y a 24H</option>
-                            <option value="4">3 derniers jours</option> 
-                            <option value="">7 derniers jours</option>
-                        </select>
-                    </div>
+                    <input class="search-field" type="search" name="recherche" placeholder="Rechercher sur ZenGeo " value="{{ identifier }}">
+                    <input type="date" name="date" class="search-date">
                     <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
                 </form> 
              </div>
+             <div class="row user__info__block">
+                <div class="col-12">
+                    <b>Informations sur la personne</b>
+                    <div class="row mt-2">
+                        <div class="col-2">
+                            <i class="fas fa-user-circle" style="width:100%"></i>
+                        </div>
+                        <div class="user__info col-9">
+                            <h6>{{ searched_user.nom }} {{ searched_user.prenom }}</h6>
+                            <span style="color:rgb(89, 0, 89);">{{ searched_user.email}}</span>
+                            <span>{{ searched_user.telephone }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="map"></div>
     </div>  
@@ -50,9 +58,28 @@
     <div id="positions-data" data-positions={{positions}}></div>
  
     <script> 
+        var inputSearch = document.querySelector('.search-field');
+        var currentvalue = inputSearch.value;
+
+        //verifier si la valeur du champs de recherche est vide ou non
+        if(currentvalue === '' || currentvalue === 'None'){
+            //mettre à jour le placeholder 
+            console.log('Suppimer l\'attribut value')
+            inputSearch.removeAttribute('value');
+        }
+
         var positionsData = JSON.parse('{{ positions|safe }}'); 
         console.log(positionsData);
         // Perform other operations with the JavaScript array
+
+        var searched_user = '{{ searched_user }}'
+        //test is a variable is none in javascript ? 
+
+        //On affiche le bloc qui contient les informations sur l'utilisateur si il existe
+        if (searched_user === null || typeof searched_user === "undefined" || searched_user ===""){
+            document.querySelector('.user__info__block').style.display = 'none';
+        }
+        console.log(searched_user)
     </script>
 
     </script>

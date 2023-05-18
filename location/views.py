@@ -25,14 +25,14 @@ def index(request):
     #Récupération du client firebase
     db = firestore.client()
 
-    query = request.GET.get('recherche')
+    identifier = request.GET.get('recherche')
     referenced_user = ""
     positions = []
 
-    if query:
-        print(query)
+    if identifier:
+        print(identifier)
         #Recupérer tout le document d'un utilisateur spécifique
-        doc_ref = db.collection("utilisateur_position").document(str(query))
+        doc_ref = db.collection("utilisateur_position").document(str(identifier))
         if doc_ref.get().exists:
 
             positions = doc_ref.get().to_dict()['position_ids']
@@ -64,7 +64,8 @@ def index(request):
     context = { 
         'data': location_data,
         'searched_user': referenced_user,
-        'positions' : positions
+        'positions' : positions,
+        'identifier': identifier,
         }
 
     return render(request, 'location/home.html', context) 
