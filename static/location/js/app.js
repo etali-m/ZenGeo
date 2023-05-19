@@ -51,3 +51,10 @@ for(i=0; i< positionsData.length; i++){
     .setPopup(new mapboxgl.Popup().setHTML('<b>' + moment.toDateString() + ' à ' + moment.toTimeString() + '</b>')) // afficher les informations sur la date et l'heure de la position.
     .addTo(map); // Ajouter le marqueur à la carte
 }
+
+map.addControl(
+    new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    }),
+    'top-right'
+);
