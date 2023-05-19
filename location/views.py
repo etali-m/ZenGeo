@@ -74,6 +74,8 @@ def index(request):
             else:
                 print("La référence est vide ou ne correspond à aucun document")
 
+        else:
+            messages.error(request, "L'identifiant entré ne correspond à aucun utilisateur !")
 
 
     """Ajouter un élément au tableau des position d'un utilisateur"""

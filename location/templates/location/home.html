@@ -19,53 +19,63 @@
 
 </style>
 <body>   
-    <div class="sidebar">
-        <h3 class="logo">ZenGeo</h3>
-        <ul>
-            <li id="position"><i class="fas fa-street-view px-2"></i> Trouver ma postion</li>
-            <li><a href=""><i class="fas fa-user px-2"></i> Compte</a></li>
-            <li> <a href=""><i class="fas fa-info-circle px-2"></i> À propos</a></li>
-        </ul>
+    <div id="loader">
+        <div class="loader-text text-center">
+            <h1><span style="color:blueviolet">Zen</span><span style="color:green">G</span><span style="color:red">e</span><span style="color:yellow">o</span></h1>
+            <p>Suivez les pas trouvez le lieu ...</p>
+
+        </div>
     </div>
-    <div class="main"> 
-        <div class="search-block">
-             <div class="row">
-                <form class="search_form d-flex" action="{% url 'home' %}" method="GET">
-                    <input class="search-field" type="search" name="recherche" placeholder="Rechercher sur ZenGeo " value="{{ identifier }}">
-                    <input type="date" name="date" class="search-date" value="{{ search_date }}">
-                    <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
-                </form> 
-             </div>
-             <div class="row user__info__block">
-                <div class="col-12">
-                    <b>Informations sur la personne</b>
-                    <div class="row mt-2">
-                        <div class="col-2">
-                            <i class="fas fa-user-circle" style="width:100%"></i>
-                        </div>
-                        <div class="user__info col-9">
-                            <h6>{{ searched_user.nom }} {{ searched_user.prenom }}</h6>
-                            <span style="color:rgb(89, 0, 89);">{{ searched_user.email}}</span>
-                            <span>{{ searched_user.telephone }}</span>
+    <div id="content">
+        <div class="sidebar">
+            <h3 class="logo">ZenGeo</h3>
+            <ul>
+                <li id="position"><i class="fas fa-street-view px-2"></i> Trouver ma postion</li>
+                <li><a href=""><i class="fas fa-user px-2"></i> Compte</a></li>
+                <li> <a href=""><i class="fas fa-info-circle px-2"></i> À propos</a></li>
+            </ul>
+        </div>
+        <div class="main"> 
+            <div class="search-block">
+                 <div class="row">
+                    <form class="search_form d-flex" action="{% url 'home' %}" method="GET">
+                        <input class="search-field" type="search" name="recherche" placeholder="Trouver une personne" value="{{ identifier }}">
+                        <input type="date" name="date" class="search-date" value="{{ search_date }}">
+                        <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
+                    </form> 
+                 </div>
+                 <div class="row user__info__block">
+                    <div class="col-12">
+                        <b>Informations sur la personne</b>
+                        <div class="row mt-2">
+                            <div class="col-2">
+                                <i class="fas fa-user-circle" style="width:100%"></i>
+                            </div>
+                            <div class="user__info col-9">
+                                <h6>{{ searched_user.nom }} {{ searched_user.prenom }}</h6>
+                                <span style="color:rgb(89, 0, 89);">{{ searched_user.email}}</span>
+                                <span>{{ searched_user.telephone }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="map"></div>
-    </div>  
+            <div id="map"></div>
+        </div>  
+    
+        {% if messages %} 
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}" role="alert" id="msg">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div id="donnees" data-lat="{{ data.lat }}" data-lon="{{ data.lon }}"></div> 
+        <div id="positions-data" data-positions={{positions}}></div>
+     
+    </div>
 
-    {% if messages %} 
-        {% for message in messages %}
-            <div class="alert {{ message.tags }}" role="alert" id="msg">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
 
-    <div id="donnees" data-lat="{{ data.lat }}" data-lon="{{ data.lon }}"></div> 
-    <div id="positions-data" data-positions={{positions}}></div>
- 
     <script> 
         var inputSearch = document.querySelector('.search-field');
         var currentvalue = inputSearch.value;
@@ -92,9 +102,17 @@
         msg = document.getElementById('msg');
         setTimeout(function(){
             msg.style.display = 'none';
-        }, 5000)
+        }, 10000)
 
-         
+        window.addEventListener('load', function() {
+            var loader = document.getElementById('loader');
+            var content = document.getElementById('content');
+            setTimeout(function() {
+                loader.style.display = 'none';
+                content.style.display = 'block';
+            }, 2000);
+        });
+
     </script> 
 
 
