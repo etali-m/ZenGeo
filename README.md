@@ -13,9 +13,23 @@ Ce projet est une application web de géolocalisation qui permet de rechercher l
 
 ## Installation
 1. Clonez le dépôt github sur votre machin locale.
-2. Installez les dépendances en utilisant pip.
+
+``` git clone https://github.com/etali-m/ZenGeo.git ```
+
+3. Installez les dépendances en utilisant pip.
+
 ``` pip install -r requirements.txt ```
+
 4. Configurez les variables d'environnements nécessaires
 5. Lancez l'application
-6. Accédez à l'application dans votre navigateur à l'adresse:
+
+``` python manage.py runserver ```
+
+7. Accédez à l'application dans votre navigateur à l'adresse:
 *http://localhost:8000*
+
+
+## Dépendances
+- Python 3.x
+- Django
+- Mapbox API
