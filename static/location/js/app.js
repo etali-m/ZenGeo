@@ -58,3 +58,5 @@ map.addControl(
     }),
     'top-right'
 );
+
+map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
