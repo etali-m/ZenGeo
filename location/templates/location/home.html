@@ -13,7 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet"> 
     <script src="https://kit.fontawesome.com/f2070ffc62.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'location/css/style.css' %}">
-    <title>Zen|Géolocalisation</title>
+    <title>ZenGeo</title>
+
 </head>
 <style>
 
@@ -21,11 +22,11 @@
 <body>   
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.css" type="text/css">
+ 
     <div id="loader">
         <div class="loader-text text-center">
             <h1><span style="color:blueviolet">Zen</span><span style="color:green">G</span><span style="color:red">e</span><span style="color:yellow">o</span></h1>
             <p>Suivez les pas trouvez le lieu ...</p>
-
         </div>
     </div>
     <div id="content">
@@ -43,6 +44,8 @@
                     <form class="search_form d-flex" action="{% url 'home' %}" method="GET">
                         <input class="search-field" type="search" name="recherche" placeholder="Trouver une personne" value="{{ identifier }}">
                         <input type="date" name="date" class="search-date" value="{{ search_date }}">
+                        <input type="number" name="hdebut" class="search-period" placeholder="18H" value="{{ heure_debut }}", min="0", max="23">
+                        <input type="number" name="hfin"  class="search-period" placeholder="21H" value="{{ heure_fin }}", min="0", max="23">
                         <button class="search_btn" type="submit"><i class="fa fa-search"></i></button>
                     </form> 
                  </div>
@@ -79,13 +82,13 @@
 
 
     <script> 
-        var inputSearch = document.querySelector('.search-field');
-        var currentvalue = inputSearch.value;
+        var inputSearch = document.querySelector('.search-field');// champs de recherche
+        var inputDate = document.querySelector('.search-date')
+        var currentvalue = inputSearch.value; 
 
-        //verifier si la valeur du champs de recherche est vide ou non
+        //verifier si la valeur du champs de recherche est vide si oui supprimer l'attribut value
         if(currentvalue === '' || currentvalue === 'None'){
-            //mettre à jour le placeholder 
-            console.log('Suppimer l\'attribut value')
+            //mettre à jour le placeholder  
             inputSearch.removeAttribute('value');
         }
 
@@ -104,7 +107,7 @@
         msg = document.getElementById('msg');
         setTimeout(function(){
             msg.style.display = 'none';
-        }, 10000)
+        }, 15000)
 
         window.addEventListener('load', function() {
             var loader = document.getElementById('loader');

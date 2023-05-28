@@ -28,6 +28,8 @@ def index(request):
 
     identifier = request.GET.get('recherche')
     search_date = request.GET.get('date')
+    heure_debut =  request.GET.get('hdebut')
+    heure_fin = request.GET.get('hfin')
     referenced_user = ""
     positions = []
 
@@ -48,9 +50,20 @@ def index(request):
                 filtered_positions = []
                 for item in positions:
                     date_iso = datetime.fromisoformat(item['timestamp']) 
-                    date_formatted_datetime = datetime.strptime(search_date, "%Y-%m-%d")  
+                    date_formatted_datetime = datetime.strptime(search_date, "%Y-%m-%d")  #on format la date entrée par l'utilisateur
                     if date_iso.date() == date_formatted_datetime.date():
-                        filtered_positions.append(item) 
+                        if (heure_debut):
+                            heure_d = int(heure_debut) - 1 
+                            if(date_iso.hour >= heure_d):
+                                if (heure_fin):
+                                    heure_f = int(heure_fin) - 1
+                                    if(date_iso.hour <= heure_f):
+                                        filtered_positions.append(item)  
+                                else:
+                                    filtered_positions.append(item)
+                        else:
+                            filtered_positions.append(item)
+
                 print(filtered_positions)
                 positions = filtered_positions
 
@@ -91,6 +104,8 @@ def index(request):
         'positions' : positions,
         'identifier': identifier,
         'search_date': search_date,
+        'heure_debut': heure_debut,
+        'heure_fin' : heure_fin,
         }
 
     return render(request, 'location/home.html', context) 
