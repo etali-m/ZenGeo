@@ -92,8 +92,13 @@
             inputSearch.removeAttribute('value');
         }
 
-        var positionsData = JSON.parse('{{ positions|safe }}'); 
-        console.log(positionsData);
+        var positionsData = JSON.parse('{{ positions|safe }}');  
+         
+        positionsData.sort(function(a, b){
+            return new Date(a.timestamp) - new Date(b.timestamp)
+        })
+
+        console.log(positionsData)
         // Perform other operations with the JavaScript array
 
         var searched_user = '{{ searched_user }}'

@@ -64,10 +64,28 @@ for(i=0; i< positionsData.length; i++){
     .addTo(map); // Ajouter le marqueur à la carte
 }
 
+coordonnees = []
+
+for(i=0; i<positionsData.length; i++){
+    coordonnees.push([positionsData[i].longitude, positionsData[i].latitude]);
+}
+
+directions = new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    unit: 'metric',
+});
+
+console.log(coordonnees[0])
+
+directions.setOrigin(coordonnees[0]);
+directions.setDestination(coordonnees[coordonnees.length - 1]);
+
+for(var i=0;i<coordonnees.length - 1;i++){
+    directions.addWaypoint(i, coordonnees[i]);
+}
+
 map.addControl(
-    new MapboxDirections({
-        accessToken: mapboxgl.accessToken
-    }),
+    directions,
     'top-right'
 );
 
