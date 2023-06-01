@@ -1,0 +1,100 @@
+
+.left-section { 
+    height: 100vh;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-section h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+}
+
+.right-section {
+    height: 100vh;
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px;
+}
+
+.login-form {
+    width: 400px;
+}
+
+.login-form h2 {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.login-form p {
+    text-align: left;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    outline: none;  
+}
+
+.login-form .form-group input:focus{ 
+    border: 1px solid #6A1B9A;
+}
+
+.custom-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.login-form .btn-primary {
+    width: 100%;
+}
+
+.login-form .signup-link {
+    text-align: center;
+}
+.navbar { 
+    color: #6A1B9A;
+}
+
+.navbar-brand {
+    color: #6A1B9A;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #220037;
+} 
+
+.signin-link{
+    background-color: #6A1B9A;
+    color:white;
+}
+
+.signin-link:hover{
+    color: white;
+}
+
+.signin-link:focus{
+    outline: none;
+    box-shadow: none;
+}
+ 
+#msg {
+    position:absolute;
+    top:20px;
+    left: 22%;
+    width: 500px;
+}

@@ -1,19 +1,87 @@
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from django.contrib.gis.geoip2 import GeoIP2 #cette bibliothèque permet d'obtenir les coordonnées
 from django.core.serializers.json import DjangoJSONEncoder
 from datetime import datetime
-from django.contrib import messages
-
+from django.contrib import messages 
 import requests
-import json
+import json 
 
 import firebase_admin 
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth
+from google.cloud import ndb
 
 
 # Initialisation du SDK de firebase pour le projet
 cred = credentials.Certificate("/home/etali/Programmation/Web/Django/Geolocation/geolocation/gelocation-88d53-firebase-adminsdk-y7038-88b7d27144.json")
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://gelocation-88d53-default-rtdb.firebaseio.com'
+})
+
+
+def login(request):
+    # Récupérer les informations d'identification de l'utilisateur depuis le formulaire
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            #Connecter l'utilisateur à Firebase
+            user = auth.get_user_by_email(email)
+
+            # Rediriger l'utilisateur vers la page souhaitée après la connexion
+            return redirect('/')
+
+        except Exception as e:
+            # Gérer les erreurs de connexion d'utilisateur
+            error_message = str(e)
+            # Afficher ou rediriger vers la page de connexion avec le message d'erreur
+            messages.error(request, error_message)
+            return redirect('/login')
+
+    # Afficher le formulaire de connexion
+    return render(request, 'location/login.html')
+
+
+def signup(request):
+    # Récupérer les informations d'identification de l'utilisateur depuis le formulaire
+
+    if request.method == 'POST':
+        print("VOnjou")
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_c = request.POST['password_confirmation']
+
+        if password_c == password :
+
+            try:
+                # Créer un nouvel utilisateur dans Firebase
+                user = auth.create_user(
+                    email=email,
+                    password=password
+                )
+
+                # Utilisez les données de l'utilisateur Firebase comme nécessaire dans votre application Django
+                user.uid  # L'identifiant unique de l'utilisateur dans Firebase
+                user.email  # L'email de l'utilisateur
+
+                # Rediriger l'utilisateur vers la page souhaitée après la création du compte
+                messages.success(request, 'Inscription réussi !')
+                return redirect('/login')
+
+            except Exception as e:
+                # Gérer les erreurs de création d'utilisateur
+                error_message = str(e)
+                # Afficher ou rediriger vers la page d'inscription avec le message d'erreur
+                messages.error(request, error_message)
+                return redirect('/signup')
+        else:
+            messages.error(request, 'Les mots de passe ne correspondent pas !')
+            return redirect('/signup')
+
+    # Afficher le formulaire d'inscription
+    return render(request, 'location/signup.html')
+
 
 def index(request): 
     #On recupère l'adresse ip de l'utilisateur
