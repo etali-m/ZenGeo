@@ -18,8 +18,11 @@ firebase_admin.initialize_app(cred, {
 })
 
 
+
+
 def login(request):
     # Récupérer les informations d'identification de l'utilisateur depuis le formulaire
+
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -93,6 +96,7 @@ def index(request):
 
     #Récupération du client firebase
     db = firestore.client()
+ 
 
     identifier = request.GET.get('recherche')
     search_date = request.GET.get('date')

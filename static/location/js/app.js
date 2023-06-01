@@ -50,7 +50,7 @@ position_btn.addEventListener('click', function(){
 });
 
 //Ici on va placer sur la carte les points de localisation de l'utilisateur recherché
-for(i=0; i< positionsData.length; i++){
+for(i=0; i< positionsData.length-1; i++){
     console.log(positionsData[i].longitude, positionsData[i].latitude);
     moment = new Date(positionsData[i].timestamp) // on convertit le timestamp qui est de type string en type Date()
     console.log(moment.toDateString());
@@ -63,6 +63,21 @@ for(i=0; i< positionsData.length; i++){
     .setPopup(new mapboxgl.Popup().setHTML('<b>' + moment.toDateString() + ' à ' + moment.toTimeString() + '</b>')) // afficher les informations sur la date et l'heure de la position.
     .addTo(map); // Ajouter le marqueur à la carte
 }
+
+leng = positionsData.length - 1
+
+moment = new Date(positionsData[leng].timestamp) // on convertit le timestamp qui est de type string en type Date()
+console.log(moment.toDateString());
+const marker1 = new mapboxgl.Marker({
+    color: 'red',
+    rotation: 30,
+    scale:0.80
+})
+.setLngLat([positionsData[leng].longitude, positionsData[leng].latitude]) // Position du marqueur [lng, lat]
+.setPopup(new mapboxgl.Popup().setHTML('<b>' + moment.toDateString() + ' à ' + moment.toTimeString() + '</b>')) // afficher les informations sur la date et l'heure de la position.
+.addTo(map); // Ajouter le marqueur à la carte
+
+
 
 coordonnees = []
 
